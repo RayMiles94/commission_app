@@ -5,7 +5,7 @@
         Sales commissions manager
     """,
     "author": "Raouf jabri",
-    "website": "https://github.com/OCA/product-attribute",
+    "website": "https://github.com/RayMiles94/commission_app",
     "category": "Sales",
     "version": "1.0",
     "depends": ["sale_management"],
