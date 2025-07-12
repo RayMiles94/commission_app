@@ -112,15 +112,15 @@ class saleorder(models.Model):
             object = {}
             if category == "individual":
                 commission, rate = self.individual_factory(
-                    commission, commission_id, object, order, rate, salesperson
+                     commission_id, object, order, salesperson
                 )
             elif commission_id.commission_category == "leader":
                 commission, rate = self.leader_factory(
-                    com_model, commission, commission_id, object, rate
+                    com_model, commission_id, object
                 )
             elif commission_id.commission_category == "regional":
                 commission, rate = self.regional_factory(
-                    com_model, commission, commission_id, crm_team, object, rate
+                    com_model, commission_id, crm_team, object
                 )
             elif commission_id.commission_category == "splitting":
                 return self.splitting_factory(
@@ -153,7 +153,7 @@ class saleorder(models.Model):
         return exist
 
     def regional_factory(
-        self, com_model, commission, commission_id, crm_team, object, rate
+        self, com_model, commission_id, crm_team, object
     ):
         """
         Computes the regional manager's commission based on total commissions
@@ -174,7 +174,7 @@ class saleorder(models.Model):
         object["reason"] = "regional"
         return commission, rate
 
-    def leader_factory(self, com_model, commission, commission_id, object, rate):
+    def leader_factory(self, com_model, commission_id, object):
         """
         Calculates team leader's commission as the sum of commissions
         of all team members multiplied by the fixed commission rate.
@@ -197,7 +197,7 @@ class saleorder(models.Model):
         return commission, rate
 
     def individual_factory(
-        self, commission, commission_id, object, order, rate, salesperson
+        self, commission_id, object, order, salesperson
     ):
         """
         Calculates individual commission based on either a fixed percentage
