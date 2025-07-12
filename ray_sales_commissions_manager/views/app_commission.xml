@@ -9,7 +9,7 @@
                 <field name="name" />
                 <field name="state" />
                 <field name="commission_type" />
-                <field name="fix_qty" />
+                <field name="fix_rate" />
             </list>
         </field>
     </record>
@@ -89,7 +89,7 @@
                 invisible="commission_category != 'individual'"
               />
                             <field
-                name="fix_qty"
+                name="fix_rate"
                 invisible="commission_paying_type != 'fixed'"
               />
                             <field

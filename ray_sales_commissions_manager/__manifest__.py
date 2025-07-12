@@ -7,7 +7,7 @@
     "author": "Raouf jabri",
     "website": "https://github.com/RayMiles94/commission_app",
     "category": "Sales",
-    "version": "1.0",
+    "version": "1.2",
     "depends": ["sale_management"],
     "data": [
         # Data

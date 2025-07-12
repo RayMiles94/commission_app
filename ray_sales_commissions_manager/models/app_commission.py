@@ -31,7 +31,7 @@ class app_commission(models.Model):
         required=True,
         default="fixed",
     )
-    fix_qty = fields.Float(string="Percentage rate", default=10)
+    fix_rate = fields.Float(string="Percentage rate", default=10)
     unit_qty = fields.Float(string="percentage per qty", default=0.1)
     sale_team = fields.Many2one(string="Sale team", comodel_name="crm.team")
     saleperson = fields.Many2one(string="Sale person", comodel_name="res.users")

@@ -45,7 +45,8 @@
           </div>
   </t>
 
-  <t t-name="ray.SummaryTitles">
+  <t t-name="ray
+  .SummaryTitles">
     <!-- Summary Titles -->
     <div class="row text-center mb-4">
             <div class="col-12 col-md-4 mb-3 mb-md-0">

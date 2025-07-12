@@ -384,7 +384,7 @@ msgid "Parent"
 msgstr ""
 
 #. module: ray_sales_commissions_manager
-#: model:ir.model.fields,field_description:ray_sales_commissions_manager.field_app_commission__fix_qty
+#: model:ir.model.fields,field_description:ray_sales_commissions_manager.field_app_commission__fix_rate
 msgid "Percentage rate"
 msgstr ""
 

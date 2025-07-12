@@ -112,15 +112,15 @@ class saleorder(models.Model):
             object = {}
             if category == "individual":
                 commission, rate = self.individual_factory(
-                     commission_id, object, order, salesperson
+                    commission, commission_id, object, order, rate, salesperson
                 )
             elif commission_id.commission_category == "leader":
                 commission, rate = self.leader_factory(
-                    com_model, commission_id, object
+                    com_model, commission, commission_id, object, rate
                 )
             elif commission_id.commission_category == "regional":
                 commission, rate = self.regional_factory(
-                    com_model, commission_id, crm_team, object
+                    com_model, commission, commission_id, crm_team, object, rate
                 )
             elif commission_id.commission_category == "splitting":
                 return self.splitting_factory(
@@ -145,15 +145,15 @@ class saleorder(models.Model):
             object["commission_user_id"] = child.id
             object["sale_id"] = order.id
             object["commission_amount"] = order.amount_total * (
-                commission_id.fix_qty / 100
+                commission_id.fix_rate / 100
             )
-            object["commission_rate"] = commission_id.fix_qty
+            object["commission_rate"] = commission_id.fix_rate
             object["reason"] = "splitting"
             exist = com_model.create(object)
         return exist
 
     def regional_factory(
-        self, com_model, commission_id, crm_team, object
+        self, com_model, commission, commission_id, crm_team, object, rate
     ):
         """
         Computes the regional manager's commission based on total commissions
@@ -168,13 +168,13 @@ class saleorder(models.Model):
             for t in teams
             for c in com_model.search([("commission_user_id", "=", t.user_id.id)])
         ]
-        commission = sum(totals) * (commission_id.fix_qty / 100)
-        rate = commission_id.fix_qty
+        commission = sum(totals) * (commission_id.fix_rate / 100)
+        rate = commission_id.fix_rate
         object["commission_user_id"] = commission_id.regional_manager.id
         object["reason"] = "regional"
         return commission, rate
 
-    def leader_factory(self, com_model, commission_id, object):
+    def leader_factory(self, com_model, commission, commission_id, object, rate):
         """
         Calculates team leader's commission as the sum of commissions
         of all team members multiplied by the fixed commission rate.
@@ -187,8 +187,8 @@ class saleorder(models.Model):
             )
             for child in commission_id.sale_team.member_ids
         ]
-        commission = sum(totals) * (commission_id.fix_qty / 100)
-        rate = commission_id.fix_qty
+        commission = sum(totals) * (commission_id.fix_rate / 100)
+        rate = commission_id.fix_rate
         object["commission_user_id"] = commission_id.sale_manager.id
         object["reason"] = "leader"
         object["sale_team"] = (
@@ -197,7 +197,7 @@ class saleorder(models.Model):
         return commission, rate
 
     def individual_factory(
-        self, commission_id, object, order, salesperson
+        self, commission, commission_id, object, order, rate, salesperson
     ):
         """
         Calculates individual commission based on either a fixed percentage
@@ -205,14 +205,14 @@ class saleorder(models.Model):
         """
 
         if commission_id.commission_paying_type == "fixed":
-            commission = order.amount_total * (commission_id.fix_qty / 100)
+            commission = order.amount_total * (commission_id.fix_rate / 100)
         else:
             commission = sum(
                 (line.product_uom_qty * line.price_unit)
                 * (commission_id.unit_qty / 100)
                 for line in order.order_line
             )
-        rate = commission_id.fix_qty
+        rate = commission_id.fix_rate
         object["commission_user_id"] = salesperson.id
         object["reason"] = "individual"
         object["sale_team"] = (
