@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="app_commission_tree" model="ir.ui.view">
+        <field name="name">app.commission.tree</field>
+        <field name="model">app.commission</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="state" />
+                <field name="commission_type" />
+                <field name="fix_qty" />
+            </list>
+        </field>
+    </record>
+
+    <record id="app_commission_form" model="ir.ui.view">
+        <field name="name">app.commission.form</field>
+        <field name="model">app.commission</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+            type="object"
+            name="action_confirm"
+            string="Confirm"
+            class="oe_highlight"
+            invisible="state != 'draft'"
+          />
+                    <button
+            type="object"
+            name="action_done"
+            string="Stop"
+            class="oe_highlight"
+            invisible="state != 'active'"
+          />
+                    <button
+            type="object"
+            name="action_reset"
+            string="Stop"
+            class="oe_highlight"
+            invisible="state != 'done'"
+          />
+                    <field
+            name="state"
+            widget="statusbar"
+            statusbar_visible="draft,active,done"
+            nolabel="1"
+            readonly="1"
+          />
+                </header>
+                <sheet>
+                    <div>
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="parent" />
+                            <field name="commission_category" />
+                            <field
+                name="sale_team"
+                invisible="commission_category == 'regional'"
+                required="commission_category == 'individual' or commission_category == 'leader'"
+              />
+                            <field
+                name="saleperson"
+                required="commission_category == 'individual'"
+                invisible="commission_category != 'individual'"
+              />
+                            <field
+                name="sale_manager"
+                required="commission_category == 'leader'"
+                invisible="commission_category != 'leader'"
+              />
+                            <field
+                name="regional_manager"
+                required="commission_category == 'regional'"
+                invisible="commission_category != 'regional'"
+              />
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="commission_type" />
+                            <field
+                name="commission_paying_type"
+                invisible="commission_category != 'individual'"
+              />
+                            <field
+                name="fix_qty"
+                invisible="commission_paying_type != 'fixed'"
+              />
+                            <field
+                name="unit_qty"
+                invisible="commission_paying_type != 'products'"
+              />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="commission_list" string="Commission values">
+                            <field
+                name="commission_lines"
+                nolabel="1"
+                options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"
+              >
+                                <list>
+                                    <field name="commission_user_id" />
+                                    <field name="commission_rate" />
+                                    <field name="commission_amount" />
+                                    <field name="state" />
+                                    <field name="sale_id" />
+                                    <field name="move_id" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+
+    <record id="app_commission_action" model="ir.actions.act_window">
+        <field name="name">Commission</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">app.commission</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="app_commission_type_tree" model="ir.ui.view">
+        <field name="name">app.commission.type</field>
+        <field name="model">app.commission.type</field>
+        <field name="arch" type="xml">
+            <list string="">
+                <field name="name" />
+            </list>
+        </field>
+    </record>
+
+    <record id="app_commission_type_form" model="ir.ui.view">
+        <field name="name">app.commission.type</field>
+        <field name="model">app.commission.type</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="app_commission_type_action" model="ir.actions.act_window">
+        <field name="name">Commission type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">app.commission.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="app_commission_line_tree" model="ir.ui.view">
+        <field name="name">app.commission.line</field>
+        <field name="model">app.commission.line</field>
+        <field name="arch" type="xml">
+            <list default_order="create_date desc">
+                <field name="commission_user_id" />
+                <field name="commission_rate" />
+                <field name="commission_amount" />
+                <field name="state" />
+                <field name="sale_id" />
+                <field name="move_id" />
+                <field name="create_date" />
+            </list>
+        </field>
+    </record>
+
+    <record id="app_commission_line_action" model="ir.actions.act_window">
+        <field name="name">Ledger</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">app.commission.line</field>
+        <field name="view_mode">list</field>
+    </record>
+
+</odoo>

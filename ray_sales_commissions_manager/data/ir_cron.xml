@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!--  Migrate existing sales records CRON -->
+    <record id="sales_commissions_manager_cron" model="ir.cron">
+        <field
+      name="name"
+    >Migrate existing sales records to compute commissions</field>
+        <field name="model_id" ref="model_sale_order" />
+        <field name="state">code</field>
+        <field name="code">model._migrate_to_compute_commissions()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="False" />
+    </record>
+
+</odoo>

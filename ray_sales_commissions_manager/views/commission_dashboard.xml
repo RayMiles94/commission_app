@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="ray_sales_commission_dashboard" model="ir.actions.client">
+        <field name="name">Commission dashboard</field>
+        <field name="tag">commission_dashboard</field>
+        <field name="target">current</field>
+    </record>
+
+</odoo>

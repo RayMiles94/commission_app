@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales commissions manager</title>
+</head>
+<body>
+
+<h1>Sales commissions manager</h1>
+
+<p>This Odoo module provides a comprehensive system to manage sales commissions for salespersons, managers, and regional leaders. It includes flexible configuration options for fixed and quantity-based commissions, and detailed tracking of commission lines associated with sales orders.</p>
+
+<h2>Features</h2>
+<ul>
+    <li>Define commission structures with fixed rate or product quantity-based payments.</li>
+    <li>Assign commissions to individual salespeople or split among team members.</li>
+    <li>Track commission lines linked to sales orders and invoices.</li>
+    <li>Manage the commission state lifecycle: Draft → Active → Done.</li>
+    <li>Supports different roles: Salesperson, Team Leader, Regional Manager.</li>
+    <li>Integrated with Odoo Sales, CRM Teams, and Accounting.</li>
+</ul>
+
+<h2>Installation</h2>
+<ol>
+    <li>Clone this module into your custom addons directory:
+        <pre><code>git clone https://github.com/RayMiles94/commission_app</code></pre>
+    </li>
+    <li>Update your Odoo configuration to include the custom addons path.</li>
+    <li>Restart Odoo and install the module via the Apps interface.</li>
+</ol>
+
+<h2>Usage</h2>
+<ol>
+    <li>You need to have the 'Manager' access rights enabled under your User Settings to use this feature.</li>
+    <li>Navigate to <strong>Commissions App</strong> click on settings then commission</li>
+    <li>Create a new commission structure, assign team members, and set rates.</li>
+    <li>Confirm the commission to activate it.</li>
+    <li>Commission lines will be automatically linked to sales orders where applicable.</li>
+</ol>
+
+<section id="commission-migration" style="margin-top: 40px;">
+    <h2>Scheduled Migration of Old Sales Orders</h2>
+    <p>
+        After configuring your commission rules and user access, the system provides an automatic scheduled action
+        that helps you migrate historical sales orders. This ensures commissions are computed based on the new
+        configuration for legacy records.
+    </p>
+    <ul>
+        <li>Runs automatically or can be triggered manually via the scheduled actions menu.</li>
+        <li>Filters old sales orders that have no associated commission lines.</li>
+        <li>Applies your current commission rules to each applicable order.</li>
+    </ul>
+    <p><strong>Note:</strong> Ensure all configurations and user permissions are correctly set before running the migration.</p>
+</section>
+
+<div class="commission-ledger">
+  <h2>Commission Ledger</h2>
+  <p>
+    The ledger displays a comprehensive list of all commission lines recorded in the system. It includes detailed information such as:
+  </p>
+  <ul>
+    <li><strong>Beneficiary:</strong> The user who receives the commission.</li>
+    <li><strong>Sale Reference:</strong> The related sale order linked to the commission.</li>
+    <li><strong>Commission Amount:</strong> The monetary value of the commission.</li>
+    <li><strong>Commission Rate:</strong> The percentage rate applied to calculate the commission.</li>
+    <li><strong>Sales Team:</strong> The team associated with the sale.</li>
+    <li><strong>Status:</strong> The current state of the commission line (e.g., Sale Order, Invoiced, Done).</li>
+    <li><strong>Reason:</strong> Optional notes or reasons for the commission.</li>
+  </ul>
+  <p>
+    This ledger provides full visibility of commissions to ensure transparency and accurate tracking for payroll and management purposes.
+  </p>
+</div>
+
+
+<div class="dashboard-overview">
+    <h2>Dashboard Overview</h2>
+    <p>
+        The app provides a dedicated dashboard that gives users a clear overview of sales performance and commissions. Once the necessary configurations are complete, the dashboard offers the following insights:
+    </p>
+    <ul>
+        <li><strong>Sales Order Count:</strong> Displays the total number of confirmed sales orders.</li>
+        <li><strong>Commission Count:</strong> Shows the total number of calculated commission records.</li>
+        <li><strong>Total Revenue:</strong> Summarizes the combined revenue associated with the commissions.</li>
+        <li><strong>Visual Analytics:</strong>
+            <ul>
+                <li>A <strong>line chart</strong> showing revenue trends over time.</li>
+                <li>A <strong>bar chart</strong> displaying commissions distributed by salesperson or team.</li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        The dashboard helps sales managers and finance teams track key metrics and analyze commission data at a glance.
+    </p>
+</div>
+
+
+<h2>Migration (v1.1 → v1.2)</h2>
+<ul>
+    <li>The field <code>fix_qty</code> was renamed to <code>fix_rate</code>.</li>
+    <li>Use the provided migration script in <code>migrations/1.2/post-migration.py</code> to transform legacy data.</li>
+</ul>
+
+
+
+<h2>Testing</h2>
+<p>Run unit tests using:</p>
+<pre><code>odoo-bin --test-enable --init ray_sales_commissions_manager --stop-after-init</code></pre>
+
+<h2>Author</h2>
+<p>Developed by <strong>Raouf jabri</strong><br>
+    Contact: <a href="mailto:raouf_jb@yahoo.fr">raouf_jb@yahoo.fr</a></p>
+
+</body>
+</html>

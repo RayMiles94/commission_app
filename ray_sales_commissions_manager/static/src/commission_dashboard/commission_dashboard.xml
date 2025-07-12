@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+  <t t-name="ray.Chart">
+    <!-- Charts -->
+    <div class="row g-4">
+      <!-- Donut Chart -->
+      <div class="col-12 col-md-6">
+              <div class="card shadow-sm rounded-3">
+                <div class="card-body">
+                  <h5
+              class="card-title text-center"
+            >Commission Distribution</h5>
+                  <div class="chart-container" style="height: 300px;">
+                    <canvas
+                class="w-100 h-100"
+                id="donutChart"
+                t-ref="canvas"
+              />
+                  </div>
+                  <p class="text-muted text-center mt-2">By Salesperson</p>
+                </div>
+              </div>
+            </div>
+      <!-- Line Chart -->
+      <div class="col-12 col-md-6">
+              <div class="card shadow-sm rounded-3">
+                <div class="card-body">
+                  <h5
+              class="card-title text-center"
+            >Monthly Commission Trend</h5>
+                  <div class="chart-container" style="height: 300px;">
+                    <canvas
+                class="w-100 h-100"
+                id="lineChart"
+                t-ref="canvas1"
+              />
+                  </div>
+                  <p
+              class="text-muted text-center mt-2"
+            >Commission earnings over time</p>
+                </div>
+              </div>
+            </div>
+          </div>
+  </t>
+
+  <t t-name="ray.SummaryTitles">
+    <!-- Summary Titles -->
+    <div class="row text-center mb-4">
+            <div class="col-12 col-md-4 mb-3 mb-md-0">
+              <div style="font-size: 2rem;">📈</div>
+              <h1>Sales count</h1>
+              <h2 t-esc="state.sales_count" />
+            </div>
+      <div class="col-12 col-md-4 mb-3 mb-md-0">
+              <div style="font-size: 2rem;">🧾</div>
+        <h1>Commission count</h1>
+        <h2 t-esc="state.commission_count" />
+            </div>
+      <div class="col-12 col-md-4">
+              <div style="font-size: 2rem;">💰</div>
+        <h1>Commission revenue</h1>
+        <h2><span t-esc="state.commission_revenue" />&#8364;</h2>
+            </div>
+          </div>
+  </t>
+
+  <t t-name="ray.Filters">
+    <!-- Filters -->
+    <div class="row mb-4 align-items-end g-3">
+            <div class="col-12 col-md-2">
+              <label class="form-label">Start Date</label>
+              <input
+          type="date"
+          t-on-change="(ev) => this.onChangeStartDate(ev.target.value)"
+          class="form-control"
+          name="startDate"
+        />
+            </div>
+      <div class="col-12 col-md-2">
+              <label class="form-label">End Date</label>
+        <input
+          type="date"
+          t-on-change="(ev) => this.onChangeEndDate(ev.target.value)"
+          class="form-control"
+          name="endDate"
+        />
+            </div>
+      <div class="col-12 col-md-2">
+              <label class="form-label">Role Type</label>
+        <select
+          t-on-change="(ev) => this.onChangeType(ev.target.value)"
+          class="form-select"
+          name="commissionType"
+        >
+                <option value="All">All Roles</option>
+          <option value="Teams">Teams</option>
+          <option value="Team Leader">Team Leader</option>
+          <option value="Regions">Regions</option>
+              </select>
+            </div>
+      <div class="col-12 col-md-2">
+              <label class="form-label"><t
+            t-esc="state.filter.role_type"
+          /></label>
+        <select
+          t-on-change="(ev) => this.onChangeDataType(ev.target.value)"
+          class="form-select"
+          name="commissionType"
+        >
+                <option value="All">All</option>
+          <t t-key="d.id" t-foreach="state.datalist" t-as="d">
+                  <option t-attf-value="{{ d.id }}"><span
+                t-esc="d.name"
+              /></option>
+                </t>
+              </select>
+            </div>
+      <div class="col-12 col-md-4">
+              <button
+          class="btn btn-primary w-100"
+          t-on-click="() => this.UpdateDashboard()"
+        >Filter</button>
+            </div>
+          </div>
+    </t>
+
+  <t t-name="ray.SalesCommissionDashboard" class="o_home_menu_background">
+        <div class="container py-4">
+          <!-- Title -->
+          <div class="row mb-3">
+            <div class="col-12 text-center">
+              <h2 class="fw-bold">Sales Commissions Dashboard</h2>
+              <p
+            class="text-muted"
+          >Visual breakdown of commissions across teams and time</p>
+            </div>
+          </div>
+          <t t-call="ray.Filters" />
+          <t t-call="ray.SummaryTitles" />
+          <t t-call="ray.Chart" />
+        </div>
+  </t>
+
+</templates>
